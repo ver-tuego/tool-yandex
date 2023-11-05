@@ -44,7 +44,7 @@ def main():
     app = QApplication(sys.argv)
 
     leaderboard_data = requests.get("https://sab.purpleglass.ru/yandex-projects/game/get-leaderboard").json()["items"]
-
+    print(list(leaderboard_data)[0])
     leaderboard_app = LeaderboardApp(leaderboard_data)
     leaderboard_app.show()
 

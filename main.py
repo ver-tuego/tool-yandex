@@ -2,7 +2,11 @@ import sys
 import requests
 from random import randrange
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QLabel, QPushButton, QMainWindow
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QCloseEvent
+from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QLabel, QPushButton, QMainWindow, QTableWidget, \
+    QTableWidgetItem, QAbstractItemView
+from PyQt5.uic.properties import QtWidgets
 
 
 class Name_check(QWidget):
@@ -48,11 +52,24 @@ class Name_check(QWidget):
 
 
 class MyWidget1(QMainWindow):
+
     def __init__(self):
         super().__init__()
-        uic.loadUi('untitled.ui', self)
+        uic.loadUi('project.ui', self)
+        self.leaderboard_data = requests.get("https://sab.purpleglass.ru/yandex-projects/game/get-leaderboard").json()[
+            "items"]
         self.initUI()
         self.a = 0
+        self.table = self.findChild(QTableWidget, "tableWidget")
+        self.table.setRowCount(5)
+        self.table.setColumnCount(2)
+        self.table.setColumnWidth(0, 90)
+        self.table.setColumnWidth(1, 60)
+        self.table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.table.horizontalHeader().setVisible(False)
+        self.table.verticalHeader().setVisible(False)
+        self.table.setSelectionMode(QAbstractItemView.NoSelection)
 
     def initUI(self):
         self.ClickButton.clicked.connect(self.random_tp)
@@ -61,6 +78,28 @@ class MyWidget1(QMainWindow):
         self.ClickButton.move(randrange(20, 310), randrange(240, 530))
         self.a += 1
         self.label.setText(f'Кол-во кликов: {self.a}')
+        self.aafaw()
+
+    def aafaw(self):
+        for i, item in enumerate(self.leaderboard_data):
+            name_item = QTableWidgetItem(item["name"])
+            clicks_item = QTableWidgetItem()
+            clicks_item.setData(0, item["clicks"])
+
+            self.table.setItem(i, 0, name_item)
+            self.table.setItem(i, 1, clicks_item)
+
+    def closeEvent(event: QCloseEvent):
+        # Отправляем данные через requests
+        data = {"name": "clicks"}
+        response = requests.post("https://sab.purpleglass.ru/yandex-projects/game/get-leaderboard", json=data)
+        if response.status_code == 200:
+            print("Данные успешно отправлены")
+            print('200')
+        else:
+            print("Ошибка при отправке данных:", response.status_code)
+
+        event.accept()
 
 
 if __name__ == '__main__':
