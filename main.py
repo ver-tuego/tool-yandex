@@ -6,7 +6,6 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QCloseEvent
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QLabel, QPushButton, QMainWindow, QTableWidget, \
     QTableWidgetItem, QAbstractItemView
-from PyQt5.uic.properties import QtWidgets
 
 
 class Name_check(QWidget):
@@ -63,13 +62,14 @@ class MyWidget1(QMainWindow):
         self.table = self.findChild(QTableWidget, "tableWidget")
         self.table.setRowCount(5)
         self.table.setColumnCount(2)
-        self.table.setColumnWidth(0, 90)
+        self.table.setColumnWidth(0, 100)
         self.table.setColumnWidth(1, 60)
         self.table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.table.horizontalHeader().setVisible(False)
         self.table.verticalHeader().setVisible(False)
         self.table.setSelectionMode(QAbstractItemView.NoSelection)
+        self.aafaw()
 
     def initUI(self):
         self.ClickButton.clicked.connect(self.random_tp)
@@ -78,7 +78,6 @@ class MyWidget1(QMainWindow):
         self.ClickButton.move(randrange(20, 310), randrange(240, 530))
         self.a += 1
         self.label.setText(f'Кол-во кликов: {self.a}')
-        self.aafaw()
 
     def aafaw(self):
         for i, item in enumerate(self.leaderboard_data):
@@ -88,6 +87,11 @@ class MyWidget1(QMainWindow):
 
             self.table.setItem(i, 0, name_item)
             self.table.setItem(i, 1, clicks_item)
+
+            for col in range(2):
+                item = self.table.item(i, col)
+                # Disable editing
+                item.setFlags(item.flags() & ~Qt.ItemIsEditable)
 
     def closeEvent(event: QCloseEvent):
         # Отправляем данные через requests

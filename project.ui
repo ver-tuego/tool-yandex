@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #FFFF00;</string>
+   <string notr="true">background-color: #3c5b46;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="ClickButton">
@@ -71,6 +71,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgba(0, 0, 0, 0);
+font: 75 8pt &quot;MS Shell Dlg 2&quot;;
 border: 5px solid #000000;</string>
     </property>
    </widget>
