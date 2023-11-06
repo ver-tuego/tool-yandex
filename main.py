@@ -1,12 +1,15 @@
 import sys
+import json
 import requests
 from random import randrange
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QCloseEvent
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QLabel, QPushButton, QMainWindow, QTableWidget, \
-    QTableWidgetItem, QAbstractItemView
+    QTableWidgetItem, QAbstractItemView, QMessageBox
 
+
+username = "asdsaddsadsa"
 
 class Name_check(QWidget):
     def __init__(self):
@@ -34,6 +37,7 @@ class Name_check(QWidget):
 
     def s_check(self):
         nm = self.name_input.text()
+        username = nm
         info = requests.get(f"https://sab.purpleglass.ru/yandex-projects/game/check-username?username={nm}").status_code
         print(info)
         if info == 200:
@@ -59,6 +63,7 @@ class MyWidget1(QMainWindow):
             "items"]
         self.initUI()
         self.a = 0
+        self.username = ""
         self.table = self.findChild(QTableWidget, "tableWidget")
         self.table.setRowCount(5)
         self.table.setColumnCount(2)
@@ -93,7 +98,25 @@ class MyWidget1(QMainWindow):
                 # Disable editing
                 item.setFlags(item.flags() & ~Qt.ItemIsEditable)
 
-    def closeEvent(event: QCloseEvent):
+    def closeEvent(self, event):
+        print(username)
+        data = requests.get(f"https://sab.purpleglass.ru/yandex-projects/game/save-user?username={username}&clicks={self.a}&time=123")
+        print(data.json())
+        print("Я ЗАКРЫЛСЯ")
+        '''
+        reply = QMessageBox.question(
+            self,
+            'Информация',
+            'Вы уверены, что хотите закрыть Dialog?',
+            QMessageBox.Yes,
+            QMessageBox.No)
+        if reply == QMessageBox.Yes:
+                # тут делайте что вам надо перед закрытием диалога
+            event.accept()
+        else:
+            event.ignore()
+        
+        print('Я ЗАКРЫЛСЯ')
         # Отправляем данные через requests
         data = {"name": "clicks"}
         response = requests.post("https://sab.purpleglass.ru/yandex-projects/game/get-leaderboard", json=data)
@@ -104,6 +127,7 @@ class MyWidget1(QMainWindow):
             print("Ошибка при отправке данных:", response.status_code)
 
         event.accept()
+        '''
 
 
 if __name__ == '__main__':
