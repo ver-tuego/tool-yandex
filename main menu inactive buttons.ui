@@ -88,6 +88,9 @@ QPushButton:hover {
       <height>431</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: #ffffff;</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="AddButton_2">
     <property name="geometry">
