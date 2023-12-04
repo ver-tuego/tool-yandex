@@ -99,12 +99,12 @@ class Main(QMainWindow):
         self.pushButton_3.clicked.connect(self.settings_open)
         self.AddButton.clicked.connect(self.add_file)
         url = 'https://sab.purpleglass.ru/uploads/files'
-        response = requests.get(url, params={"token": "d4988409b7253d49375043dedb118b13"})
-        print(response.text)
+        self.response = requests.get(url, params={"token": "d4988409b7253d49375043dedb118b13"})
+        print(self.response.json()['items'])
 
 
         # Создать модель списка, добавить данные
-        slm=QStringListModel()
+        slm = QStringListModel()
         self.qList = ['1', '2', '3', '4']
 
         # Установить вид списка моделей, загрузить список данных
