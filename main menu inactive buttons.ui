@@ -83,13 +83,13 @@ QPushButton:hover {
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
-      <width>321</width>
-      <height>431</height>
+      <y>70</y>
+      <width>331</width>
+      <height>511</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: #ffffff;</string>
+     <string notr="true">font: 8pt &quot;Segoe UI Historic&quot;;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="AddButton_2">
