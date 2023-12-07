@@ -2,8 +2,7 @@ import sys
 import requests
 import configparser
 from PyQt5 import uic, QtCore
-from PyQt5.QtCore import QStringListModel
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit, QFileDialog, QListWidgetItem
 
 
 config = configparser.ConfigParser()
@@ -39,9 +38,10 @@ class LogIn(QMainWindow):
             config['DEFAULT'] = {'login': login,
                                  'password': password,
                                  'token': token}
-            with open('config.ini', 'w') as configfile:
+            with open('../config.ini', 'w') as configfile:
                 config.write(configfile)
             self.main_window.show()
+            self.main_window.parsed_items()
             self.hide()
 
     def reg_open(self):
@@ -78,9 +78,10 @@ class Reg(QMainWindow):
                 config['DEFAULT'] = {'login': login,
                                      'password': password,
                                      'token': token}
-                with open('config.ini', 'w') as configfile:
+                with open('../config.ini', 'w') as configfile:
                     config.write(configfile)
                 self.main_window.show()
+                self.main_window.parsed_items()
                 self.hide()
         else:
             self.ErrorMessage_2.hide()
@@ -89,35 +90,83 @@ class Reg(QMainWindow):
 
 
 class Main(QMainWindow):
+
+    items = []
+    current_item = None
+
     def __init__(self):
         super().__init__()
-        uic.loadUi('main menu inactive buttons.ui', self)
+        uic.loadUi('main menu v8.1.ui', self)
         self.acc_window = AccSettings()
-        self.AddButton_2.setEnabled(False)
         self.AddButton_4.setEnabled(False)
         self.AddButton_3.setEnabled(False)
+        self.AddButton_4.clicked.connect(self.delete_item)
+        self.AddButton_3.clicked.connect(self.download_item)
         self.pushButton_3.clicked.connect(self.settings_open)
         self.AddButton.clicked.connect(self.add_file)
+        self.listWidget.itemClicked.connect(self.item_clicked)
+
+    def item_clicked(self, item):
+        url = item.data(1)
+
+        for json_item in self.items['items']:
+            if json_item['url'] == url:
+                self.current_item = json_item
+        print(self.current_item)
+        self.AddButton_3.setStyleSheet("""QPushButton {
+            background-color: #292929;
+            border-radius: 25px;
+            border: 2px solid #808080;
+            color: rgb(255, 255, 255);
+        }
+
+        QPushButton:hover {
+            background-color: #ffa31a;
+        }""")
+        self.AddButton_3.setEnabled(True)
+        self.AddButton_4.setStyleSheet("""QPushButton {
+            background-color: #292929;
+            border-radius: 25px;
+            border: 2px solid #808080;
+            color: rgb(255, 255, 255);
+        }
+
+        QPushButton:hover {
+            background-color: #ffa31a;
+        }""")
+        self.AddButton_4.setEnabled(True)
+
+    def delete_item(self):
+        url = "http://sab.purpleglass.ru/uploads/files"
+        response = requests.delete(url, params={"token": config['DEFAULT']['token'], "file_id": self.current_item['file_id']})
+        self.items = []
+        self.parsed_items()
+        self.update()
+
+    def download_item(self):
+        url = f"http://sab.purpleglass.ru/uploads/{self.current_item['file_name']}"
+        response = requests.get(url, params={"token": config['DEFAULT']['token']})
+        with open(self.current_item['file_name'][11::], 'wb') as f:
+            f.write(response.content)
+
+    def parsed_items(self):
         url = 'https://sab.purpleglass.ru/uploads/files'
-        self.response = requests.get(url, params={"token": "d4988409b7253d49375043dedb118b13"})
-        print(self.response.json()['items'])
+        response = requests.get(url, params={"token": config['DEFAULT']['token']})
+        self.items = response.json()
+        for item in self.items['items']:
+            self.render_item(item)
 
 
-        # Создать модель списка, добавить данные
-        slm = QStringListModel()
-        self.qList = ['1', '2', '3', '4']
-
-        # Установить вид списка моделей, загрузить список данных
-        slm.setStringList(self.qList)
-
-        # Установите модель представления списка
-        self.listView.setModel(slm)
-
-        # Нажмите, чтобы активировать пользовательский слот
-        self.listView.clicked.connect(self.clicked)
-
-    def clicked(self):
-        print("HUYY")
+    def render_item(self, item):
+        file_name = item['file_name']
+        url = item['url']
+        size = item['size']
+        private = item['private']
+        list_item = QListWidgetItem()
+        list_item.setText(f"File: {file_name[11::]}\nSize: {size} Bytes\nPrivate: {'Yes' if private else 'No'}")
+        list_item.setData(1, url)
+        list_item.setSizeHint(list_item.sizeHint())
+        self.listWidget.addItem(list_item)
 
     def settings_open(self):
         self.acc_window.show()
@@ -126,11 +175,13 @@ class Main(QMainWindow):
 
     def add_file(self):
         file, _ = QFileDialog.getOpenFileName(None, "QFileDialog.getOpenFileName()", "", "All Files (*)")
-        print(file)
-        url = 'https://sab.purpleglass.ru/upload'
-        files = {'file': (file, open(file, 'rb'))}
-        config.read('config.ini')
-        response = requests.post(url, files=files, params={"token": config['DEFAULT']['token'], "private": 1})
+        if file != '':
+            url = 'https://sab.purpleglass.ru/upload'
+            files = {'file': (file, open(file, 'rb'))}
+            config.read('config.ini')
+            gg = requests.post(url, files=files, params={"token": config['DEFAULT']['token'], "private": 1})
+            self.items['items'].append(gg.json())
+            self.render_item(gg.json())
 
 
 class AccSettings(QMainWindow):
@@ -161,9 +212,15 @@ class AccSettings(QMainWindow):
     def settings_close(self):
         self.main_window = Main()
         self.main_window.show()
+        self.main_window.parsed_items()
         self.hide()
 
     def acc_exit(self):
+        config['DEFAULT'] = {'login': '',
+                             'password': '',
+                             'token': ''}
+        with open('../config.ini', 'w') as configfile:
+            config.write(configfile)
         self.login_window = LogIn()
         self.login_window.show()
         self.hide()
@@ -178,6 +235,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     if a:
         ex = Main()
+        ex.parsed_items()
     else:
         ex = LogIn()
     ex.show()

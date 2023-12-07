@@ -40,15 +40,14 @@
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-
-	background-color: #ffa31a;
+	background-color: #292929;
 	border-radius: 25px;
 	border: 2px solid #808080;
 	color: rgb(255, 255, 255);
 }
 
 QPushButton:hover {
-	
+	background-color: #ffa31a;
 }</string>
     </property>
     <property name="text">
@@ -56,14 +55,14 @@ QPushButton:hover {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../Downloads/account_avatar_face_man_people_profile_user_icon_123197.png</normaloff>../../Downloads/account_avatar_face_man_people_profile_user_icon_123197.png</iconset>
+      <normaloff>account_avatar_face_man_people_profile_user_icon_123197.png</normaloff>account_avatar_face_man_people_profile_user_icon_123197.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="AddButton">
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>180</y>
+      <y>220</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -85,7 +84,7 @@ QPushButton:hover {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../Downloads/addplussignoutline_112526.png</normaloff>../../Downloads/addplussignoutline_112526.png</iconset>
+      <normaloff>addplussignoutline_112526.png</normaloff>addplussignoutline_112526.png</iconset>
     </property>
    </widget>
    <widget class="QListWidget" name="listWidget">
@@ -117,38 +116,11 @@ QPushButton:hover {
             }</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="AddButton_2">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>240</y>
-      <width>50</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-	background-color: #292929;
-	border-radius: 25px;
-	border: 2px solid rgba(128,128,128,100);
-	color: rgba(255, 255, 255, 100);
-}
-
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../../Downloads/1159633.png</normaloff>../../Downloads/1159633.png</iconset>
-    </property>
-   </widget>
    <widget class="QPushButton" name="AddButton_3">
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>360</y>
+      <y>340</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -157,7 +129,7 @@ QPushButton:hover {
      <string notr="true">QPushButton {
 	background-color: #292929;
 	border-radius: 25px;
-	border: 2px solid rgba(128,128,128,100);
+	border: 2px solid rgb(87, 87, 87);
 	color: rgba(255, 255, 255, 50);
 }
 
@@ -168,14 +140,14 @@ QPushButton:hover {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../Downloads/download img yandex.png</normaloff>../../Downloads/download img yandex.png</iconset>
+      <normaloff>download img yandex.png</normaloff>download img yandex.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="AddButton_4">
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>300</y>
+      <y>280</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -184,7 +156,7 @@ QPushButton:hover {
      <string notr="true">QPushButton {
 	background-color: #292929;
 	border-radius: 25px;
-	border: 2px solid rgba(128,128,128,100);
+	border: 2px solid rgb(87, 87, 87);
 	color: rgba(255, 255, 255, 100);
 }
 
@@ -195,97 +167,7 @@ QPushButton:hover {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../Downloads/bin img yandex.png</normaloff>../../Downloads/bin img yandex.png</iconset>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="AddButton_5">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>360</y>
-      <width>50</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-
-	background-color: #ffa31a;
-	border-radius: 25px;
-	border: 2px solid #808080;
-	color: rgb(255, 255, 255);
-}
-
-QPushButton:hover {
-	
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../../Downloads/download img yandex.png</normaloff>../../Downloads/download img yandex.png</iconset>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="AddButton_6">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>300</y>
-      <width>50</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-
-	background-color: #ffa31a;
-	border-radius: 25px;
-	border: 2px solid #808080;
-	color: rgb(255, 255, 255);
-}
-
-QPushButton:hover {
-	
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../../Downloads/bin img yandex.png</normaloff>../../Downloads/bin img yandex.png</iconset>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="AddButton_7">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>240</y>
-      <width>50</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-
-	background-color: #ffa31a;
-	border-radius: 25px;
-	border: 2px solid #808080;
-	color: rgb(255, 255, 255);
-}
-
-QPushButton:hover {
-	
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../../Downloads/1159633.png</normaloff>../../Downloads/1159633.png</iconset>
+      <normaloff>bin img yandex.png</normaloff>bin img yandex.png</iconset>
     </property>
    </widget>
   </widget>
