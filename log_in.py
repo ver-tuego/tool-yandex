@@ -179,18 +179,16 @@ class Main(QMainWindow):
             url = 'http://95.163.25.189:3555/upload'
             files = {'file': (file, open(file, 'rb'))}
             config.read('config.ini')
-            dolbaeb = requests.post(url, files=files, params={"token": config['DEFAULT']['token'], "private": 1})
-            if dolbaeb.status_code != 418:
-                self.items['items'].append(dolbaeb.json())
-                self.render_item(dolbaeb.json())
+            response = requests.post(url, files=files, params={"token": config['DEFAULT']['token'], "private": 1})
+            if response.status_code != 418:
+                self.items['items'].append(response.json())
+                self.render_item(response.json())
             else:
                 message_box = QMessageBox()
-                message_box.setWindowTitle('Ошибка.')
-                message_box.setText('долбаеб файлами не спамь')
+                message_box.setWindowTitle('Ошибка')
+                message_box.setText('Слишком много запросов')
                 message_box.setIcon(QMessageBox.Information)
-
                 message_box.setStandardButtons(QMessageBox.Ok)
-
                 message_box.exec_()
 
 
