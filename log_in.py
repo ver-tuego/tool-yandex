@@ -2,7 +2,7 @@ import sys
 import requests
 import configparser
 from PyQt5 import uic, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit, QFileDialog, QListWidgetItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit, QFileDialog, QListWidgetItem, QMessageBox
 
 
 config = configparser.ConfigParser()
@@ -137,7 +137,7 @@ class Main(QMainWindow):
         self.AddButton_4.setEnabled(True)
 
     def delete_item(self):
-        url = "http://95.163.25.189:3555/files"
+        url = "http://95.163.25.189:3555/uploads/files"
         response = requests.delete(url, params={"token": config['DEFAULT']['token'], "file_id": self.current_item['file_id']})
         self.items = []
         self.parsed_items()
@@ -179,9 +179,19 @@ class Main(QMainWindow):
             url = 'http://95.163.25.189:3555/upload'
             files = {'file': (file, open(file, 'rb'))}
             config.read('config.ini')
-            gg = requests.post(url, files=files, params={"token": config['DEFAULT']['token'], "private": 1})
-            self.items['items'].append(gg.json())
-            self.render_item(gg.json())
+            dolbaeb = requests.post(url, files=files, params={"token": config['DEFAULT']['token'], "private": 1})
+            if dolbaeb.status_code != 418:
+                self.items['items'].append(dolbaeb.json())
+                self.render_item(dolbaeb.json())
+            else:
+                message_box = QMessageBox()
+                message_box.setWindowTitle('Ошибка.')
+                message_box.setText('долбаеб файлами не спамь')
+                message_box.setIcon(QMessageBox.Information)
+
+                message_box.setStandardButtons(QMessageBox.Ok)
+
+                message_box.exec_()
 
 
 class AccSettings(QMainWindow):
